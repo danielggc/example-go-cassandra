@@ -1,5 +1,4 @@
-version: '3'
-
+version: '3.9'
 
 services:
   broker-service:
@@ -12,5 +11,26 @@ services:
     deploy:
       mode: replicated
       replicas: 1
+    depends_on:
+      - cassandra
+    environment:
+      - CASSANDRA_HOST=cassandra
+      - CASSANDRA_KEYSPACE=my_keyspace
+    networks:
+      - app-net
 
-   
+  cassandra:
+    image: cassandra:latest 
+    container_name: cassandra2
+    hostname: cassandra
+    volumes:
+      - ./cmd/api/infrastructure/cassandra/init.cql:/init.cql
+    ports: 
+
+      - "9042:9042" 
+    networks:
+      - app-net
+
+
+networks:
+  app-net:

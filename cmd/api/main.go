@@ -13,7 +13,7 @@ const webPort = "80"
 
 func main() {
 
-	maybeSession := cassandra.ConnectDB("127.0.0.1", "my_keyspace")
+	maybeSession := cassandra.ConnectDB("cassandra", "my_keyspace")
 	if maybeSession.IsError() {
 		log.Panic(maybeSession.Error())
 		return
